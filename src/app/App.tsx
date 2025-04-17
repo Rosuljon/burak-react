@@ -1,11 +1,18 @@
-import React from "react";
-import "../css/app.css";
+// import React from "react";
 // import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { Route, Switch, useLocation } from "react-router-dom";
-import { HomePage, ProductsPage, OrdersPage, UserPage } from "./screens";
+import {
+  HomePage,
+  ProductsPage,
+  OrdersPage,
+  UserPage,
+  HelpPage,
+} from "./screens";
 import { HomeNavbar } from "./components/headers/HomeNavbar";
 import { SecondaryNavbar } from "./components/headers/SecondaryNavbar";
 import { Footer } from "./components/footer";
+import "../css/app.css";
+import "../css/navbar.css";
 
 function App() {
   const location = useLocation();
@@ -17,6 +24,7 @@ function App() {
         <Route path="/products" component={ProductsPage} />
         <Route path="/orders" component={OrdersPage} />
         <Route path="/member-page" component={UserPage} />
+        <Route path="/help" component={HelpPage} />
       </Switch>
       <Footer />
     </>
