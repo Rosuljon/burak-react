@@ -5,28 +5,14 @@ export const HomeNavbar = () => {
   const authMember = null;
   return (
     <div className="home-navbar">
-      <Container sx={{ mt: "55px", height: "642px" }}>
-        <Stack
-          sx={{ height: "50px", color: "white" }}
-          flexDirection={"row"}
-          justifyContent={"space-between"}
-          alignContent={"center"}
-        >
+      <Container className="navbar-container">
+        <Stack className="menu">
           <Box>
             <NavLink to="/">
-              <img
-                src="/icons/burak.svg"
-                alt="Logo"
-                style={{ width: "125px", height: "30px" }}
-              />
+              <img src="/icons/burak.svg" alt="Logo" className="logo" />
             </NavLink>
           </Box>
-          <Stack
-            flexDirection={"row"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-            minWidth={"700px"}
-          >
+          <Stack className="links">
             <Box className={"hover-line"}>
               <NavLink activeClassName="underline" to="/">
                 Home
@@ -58,15 +44,16 @@ export const HomeNavbar = () => {
             </Box>
             {!authMember ? (
               <Box>
-                <Button
-                  variant="contained"
-                  style={{ background: "#3776CC", color: "#f8f8ff" }}
-                >
+                <Button variant="contained" className="login-btn">
                   Login
                 </Button>
               </Box>
             ) : (
-              <img />
+              <img
+                className="profile-img"
+                src="/icons/default-user.svg"
+                aria-haspopup={"true"}
+              />
             )}
           </Stack>
         </Stack>
