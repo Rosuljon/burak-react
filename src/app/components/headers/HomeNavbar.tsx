@@ -1,7 +1,8 @@
 import { Box, Button, Container, Stack } from "@mui/material";
 import { NavLink, useLocation } from "react-router-dom";
+import Basket from "./Basket";
 
-export const HomeNavbar = () => {
+const HomeNavbar = () => {
   const authMember = null;
   const location = useLocation();
   const isHomePage = location.pathname === "/";
@@ -47,6 +48,7 @@ export const HomeNavbar = () => {
                 Help
               </NavLink>
             </Box>
+            <Basket />
             {!authMember ? (
               <Box>
                 <Button variant="contained" className="login-btn">
@@ -89,3 +91,5 @@ export const HomeNavbar = () => {
     </div>
   );
 };
+
+export default HomeNavbar;

@@ -8,10 +8,11 @@ import {
   UserPage,
   HelpPage,
 } from "./screens";
-import { HomeNavbar } from "./components/headers/HomeNavbar";
-import { Footer } from "./components/footer";
+import HomeNavbar from "./components/headers/HomeNavbar";
+import Footer from "./components/footer";
 import "../css/app.css";
 import "../css/navbar.css";
+import "../css/footer.css";
 
 function App() {
   return (
