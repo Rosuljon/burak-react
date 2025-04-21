@@ -1,10 +1,15 @@
 import { Box, Button, Container, Stack } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 export const HomeNavbar = () => {
   const authMember = null;
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
   return (
-    <div className="home-navbar">
+    <div
+      className="home-navbar"
+      style={{ height: isHomePage ? "773px" : "400px" }}
+    >
       <Container className="navbar-container">
         <Stack className="menu">
           <Box>
@@ -14,7 +19,7 @@ export const HomeNavbar = () => {
           </Box>
           <Stack className="links">
             <Box className={"hover-line"}>
-              <NavLink activeClassName="underline" to="/">
+              <NavLink exact activeClassName="underline" to="/">
                 Home
               </NavLink>
             </Box>
@@ -57,23 +62,29 @@ export const HomeNavbar = () => {
             )}
           </Stack>
         </Stack>
-        <Stack className="header-frame">
-          <Stack className="detail">
-            <Box className="head-main-txt">World's Most Delicious Cousine</Box>
-            <Box className="head-second-txt">The Choice, not just a choice</Box>
-            <Box className="head-third-txt">24 hours service</Box>
-            <Box className="signup">
-              {!authMember && (
-                <Button variant="contained" className="signup-button">
-                  Sign Up
-                </Button>
-              )}
-            </Box>
+        {isHomePage && (
+          <Stack className="header-frame">
+            <Stack className="detail">
+              <Box className="head-main-txt">
+                World's Most Delicious Cousine
+              </Box>
+              <Box className="head-second-txt">
+                The Choice, not just a choice
+              </Box>
+              <Box className="head-third-txt">24 hours service</Box>
+              <Box className="signup">
+                {!authMember && (
+                  <Button variant="contained" className="signup-button">
+                    Sign Up
+                  </Button>
+                )}
+              </Box>
+            </Stack>
+            <Stack className="logo-frame">
+              <div className="logo-img"></div>
+            </Stack>
           </Stack>
-          <Stack className="logo-frame">
-            <div className="logo-img"></div>
-          </Stack>
-        </Stack>
+        )}
       </Container>
     </div>
   );

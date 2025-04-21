@@ -1,6 +1,6 @@
 // import React from "react";
 // import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import { Route, Switch, useLocation } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import {
   HomePage,
   ProductsPage,
@@ -9,16 +9,14 @@ import {
   HelpPage,
 } from "./screens";
 import { HomeNavbar } from "./components/headers/HomeNavbar";
-import { SecondaryNavbar } from "./components/headers/SecondaryNavbar";
 import { Footer } from "./components/footer";
 import "../css/app.css";
 import "../css/navbar.css";
 
 function App() {
-  const location = useLocation();
   return (
     <>
-      {location.pathname === "/" ? <HomeNavbar /> : <SecondaryNavbar />}
+      <HomeNavbar />
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/products" component={ProductsPage} />
