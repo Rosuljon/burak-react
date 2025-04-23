@@ -28,12 +28,7 @@ const ActiveUsers = () => {
                           <img src={ele.memberImage} alt="" />
                         </AspectRatio>
                       </CardOverflow>
-
-                      <Stack
-                        flexDirection="row"
-                        justifyContent={"center"}
-                        alignItems={"end"}
-                      >
+                      <Stack flexDirection="row" justifyContent={"center"}>
                         <Typography className="title">
                           {ele.memberNick}
                         </Typography>
