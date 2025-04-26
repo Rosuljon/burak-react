@@ -85,9 +85,7 @@ const Products = () => {
               </Button>
             </Stack>
             <Stack className="product-wrapper">
-              {products.length === 0 ? (
-                <Box className="no-data">No products available</Box>
-              ) : (
+              {products.length !== 0 ? (
                 products.map((product, index) => (
                   <Stack key={index} className="product-card">
                     <Stack
@@ -122,6 +120,8 @@ const Products = () => {
                     </Stack>
                   </Stack>
                 ))
+              ) : (
+                <Box className="no-data">No products available</Box>
               )}
             </Stack>
           </Stack>
