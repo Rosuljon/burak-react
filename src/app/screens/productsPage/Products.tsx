@@ -33,7 +33,7 @@ const Products = () => {
       <Container>
         <Stack flexDirection={"column"} alignItems={"center"}>
           <Stack className="avatar-big-box">
-            <Stack className="title">Burak Restaurent</Stack>
+            <Stack className="title">Burak Restaurant</Stack>
             <Stack className="input-wrapper">
               <InputBase
                 type="search"
@@ -168,9 +168,10 @@ const Products = () => {
             <Box className="title">Our address</Box>
             <iframe
               src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Itaewon%20Station,%20Seoul,%20South%20Korea+(Itaewon%20Station)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-              width="1320"
+              width="100%"
               height="500"
               referrerPolicy="no-referrer-when-downgrade"
+              loading="lazy"
             ></iframe>
           </Stack>
         </Container>
