@@ -24,7 +24,11 @@
   display: flex;
   justify-content: space-between;
 }
-
+.help-page .MuiTabs-list {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
 .help-page .css-1gsv261 {
   width: 75%;
 }

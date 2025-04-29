@@ -31,7 +31,7 @@ export function HelpPage() {
                 value={value}
                 onChange={handleChange}
                 aria-label="lab API tabs example"
-                className={"table_list"}
+                className={"table-list"}
               >
                 <Tab label="TERMS" value={"1"} />
                 <Tab label="FAQ" value={"2"} />
