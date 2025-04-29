@@ -3,7 +3,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import Basket from "./Basket";
 
 const HomeNavbar = () => {
-  const authMember = null;
+  const authMember = true;
   const location = useLocation();
   const isHomePage = location.pathname === "/";
   return (
