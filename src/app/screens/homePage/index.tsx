@@ -5,10 +5,12 @@ import Ads from "./Ads";
 import ActiveUsers from "./ActiveUsers";
 import Events from "./Events";
 import "../../../css/home.css";
+import Test from "../Test";
 
 export function HomePage() {
   return (
     <div className="homepage">
+      <Test />
       <Statistics />
       <PopularDishes />
       <NewDishes />
