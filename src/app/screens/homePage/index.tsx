@@ -10,7 +10,6 @@ import Test from "../Test";
 export function HomePage() {
   return (
     <div className="homepage">
-      <Test />
       <Statistics />
       <PopularDishes />
       <NewDishes />
