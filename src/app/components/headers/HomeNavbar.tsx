@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Button, Container, Stack } from "@mui/material";
 import { NavLink, useLocation } from "react-router-dom";
 import Basket from "./Basket";
@@ -8,8 +8,18 @@ const HomeNavbar = () => {
   const location = useLocation();
   const isHomePage = location.pathname === "/";
   const [count, setCount] = useState(0);
-  const buttonHandler = () => {
+  const [value, setValue] = useState(true);
+  useEffect(() => {
+    console.log("componentDidMount", count);
     setCount(count + 1);
+
+    return () => {
+      console.log("componentWillUnmount");
+    };
+  }, [value]);
+
+  const buttonHandler = () => {
+    setValue(!value);
   };
   return (
     <div
