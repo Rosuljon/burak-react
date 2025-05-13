@@ -28,6 +28,8 @@ export function HomePage() {
   const { popularDishes } = useSelector(popularDishesRetriever);
   useEffect(() => {}, []);
 
+  console.log(process.env.REACT_APP_API_URL);
+
   return (
     <div className="homepage">
       <Statistics />
