@@ -20,7 +20,6 @@ const popularDishesRetriever = createSelector(
 );
 const PopularDishes = () => {
   const { popularDishes } = useSelector(popularDishesRetriever);
-  console.log(popularDishes);
 
   return (
     <div className="popular-dishes-frame">

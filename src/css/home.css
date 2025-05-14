@@ -175,7 +175,8 @@
 }
 
 .homepage .new-products-frame .product-detail .title {
-  width: 65px;
+  /* width: 65px; */
+  margin-right: 10px;
   font-weight: 500;
 }
 

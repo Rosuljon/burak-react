@@ -8,14 +8,19 @@ import Typography from "@mui/joy/Typography";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Divider from "../../components/divider";
 
-const newDishes = [
-  { productName: "Lavash", imagePath: "/img/lavash.webp" },
-  { productName: "Cutlet", imagePath: "/img/cutlet.webp" },
-  { productName: "Kebab", imagePath: "/img/kebab.webp" },
-  { productName: "Kebab", imagePath: "/img/kebab-fresh.webp" },
-];
+import { useSelector } from "react-redux";
+import { createSelector } from "reselect";
+import { retrieveNewDishes } from "./selector";
+import { serverApi } from "../../../lib/config";
+import { Product } from "../../../lib/types/product";
+import { ProductCollection } from "../../../lib/enums/product.enum";
+
+const newDishesRetriever = createSelector(retrieveNewDishes, (newDishes) => ({
+  newDishes,
+}));
 
 const NewDishes = () => {
+  const { newDishes } = useSelector(newDishesRetriever);
   return (
     <div className="new-products-frame">
       <Container>
@@ -24,13 +29,18 @@ const NewDishes = () => {
           <Stack className="cards-frame">
             <CssVarsProvider>
               {newDishes.length !== 0 ? (
-                newDishes.map((ele, index) => {
+                newDishes.map((ele) => {
+                  const imagePath = `${serverApi}/${ele.productImages[0]}`;
+                  const sizeVolume =
+                    ele.productCollection === ProductCollection.DRINK
+                      ? ele.productVolume + "l"
+                      : ele.productSize + " size";
                   return (
-                    <Card key={index} variant="outlined" className="card">
+                    <Card key={ele._id} variant="outlined" className="card">
                       <CardOverflow>
-                        <div className="product-sale">Normal size</div>
+                        <div className="product-sale">{sizeVolume}</div>
                         <AspectRatio ratio="1">
-                          <img src={ele.imagePath} alt="" />
+                          <img src={imagePath} alt="image" />
                         </AspectRatio>
                       </CardOverflow>
 
@@ -41,12 +51,14 @@ const NewDishes = () => {
                               {ele.productName}
                             </Typography>
                             <Divider width="2" height="24" bg="#d9d9d9" />
-                            <Typography className="price">$12</Typography>
+                            <Typography className="price">
+                              ${ele.productPrice}
+                            </Typography>
                           </Stack>
 
                           <Stack>
                             <Typography className="views">
-                              20
+                              {ele.productViews}
                               <VisibilityIcon
                                 sx={{ fontSize: 20, marginLeft: "5px" }}
                               />
