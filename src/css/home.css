@@ -259,9 +259,11 @@
   justify-content: space-between;
 }
 .homepage .cards-frame .card {
-  height: 335px;
+  /* height: 335px; */
   width: 290px;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
 }
 
 .homepage .cards-frame .no-data {
