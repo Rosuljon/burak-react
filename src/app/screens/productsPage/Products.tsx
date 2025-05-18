@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Button,
@@ -20,17 +20,10 @@ import { Product } from "../../../lib/types/product";
 import { createSelector } from "reselect";
 import { setProducts } from "./slice";
 import { retrieveProducts } from "./selector";
-
-const products = [
-  { productName: "Cutlet", imagePath: "/img/cutlet.webp" },
-  { productName: "Kebab", imagePath: "/img/kebab-fresh.webp" },
-  { productName: "Kebab", imagePath: "/img/kebab.webp" },
-  { productName: "Lavash", imagePath: "/img/lavash.webp" },
-  { productName: "Lavash", imagePath: "/img/lavash.webp" },
-  { productName: "Cutlet", imagePath: "/img/cutlet.webp" },
-  { productName: "Kebab", imagePath: "/img/kebab.webp" },
-  { productName: "Kebab", imagePath: "/img/kebab-fresh.webp" },
-];
+import ProductService from "../../services/ProductService";
+import { ProductCollection } from "../../../lib/enums/product.enum";
+import { useDispatch, useSelector } from "react-redux";
+import { serverApi } from "../../../lib/config";
 
 const actionDispatch = (dispatch: Dispatch) => ({
   setProducts: (data: Product[]) => dispatch(setProducts(data)),
@@ -40,6 +33,22 @@ const productsRetriever = createSelector(retrieveProducts, (products) => ({
   products,
 }));
 const Products = () => {
+  const { setProducts } = actionDispatch(useDispatch());
+  const { products } = useSelector(productsRetriever);
+  useEffect(() => {
+    const product = new ProductService();
+    product
+      .getProducts({
+        page: 1,
+        limit: 8,
+        order: "createdAt",
+        productCollection: ProductCollection.DISH,
+        search: "",
+      })
+      .then((data) => setProducts(data))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <div className="products">
       <Container>
@@ -98,40 +107,51 @@ const Products = () => {
             </Stack>
             <Stack className="product-wrapper">
               {products.length !== 0 ? (
-                products.map((product, index) => (
-                  <Stack key={index} className="product-card">
-                    <Stack
-                      className="product-img"
-                      sx={{ backgroundImage: `url(${product.imagePath})` }}
-                    >
-                      <div className="product-sale">Normal size</div>
-                      <Button className="shop-btn">
-                        <img
-                          src="/icons/shopping-cart.svg"
-                          style={{ display: "flex" }}
-                        />
-                      </Button>
-                      <Button className="view-btn" sx={{ right: "36px" }}>
-                        <Badge badgeContent={20} color="secondary">
-                          <RemoveRedEyeIcon
-                            sx={{
-                              color: "gray",
-                            }}
+                products.map((product) => {
+                  const imagePath = `${serverApi}/${product.productImages[0]}`;
+                  const sizeVolume =
+                    product.productCollection === ProductCollection.DRINK
+                      ? product.productVolume + "litre"
+                      : product.productSize + "size";
+                  return (
+                    <Stack key={product._id} className="product-card">
+                      <Stack
+                        className="product-img"
+                        sx={{ backgroundImage: `url(${imagePath})` }}
+                      >
+                        <div className="product-sale">{sizeVolume}</div>
+                        <Button className="shop-btn">
+                          <img
+                            src="/icons/shopping-cart.svg"
+                            style={{ display: "flex" }}
                           />
-                        </Badge>
-                      </Button>
+                        </Button>
+                        <Button className="view-btn" sx={{ right: "36px" }}>
+                          <Badge
+                            badgeContent={product.productViews}
+                            color="secondary"
+                          >
+                            <RemoveRedEyeIcon
+                              sx={{
+                                color:
+                                  product.productViews === 0 ? "gray" : "white",
+                              }}
+                            />
+                          </Badge>
+                        </Button>
+                      </Stack>
+                      <Stack className="product-desc">
+                        <span className="product-title">
+                          {product.productName}
+                        </span>
+                        <div className="product-desc">
+                          <MonetizationOnIcon />
+                          {product.productPrice}
+                        </div>
+                      </Stack>
                     </Stack>
-                    <Stack className="product-desc">
-                      <span className="product-title">
-                        {product.productName}
-                      </span>
-                      <div className="product-desc">
-                        <MonetizationOnIcon />
-                        {12}
-                      </div>
-                    </Stack>
-                  </Stack>
-                ))
+                  );
+                })
               ) : (
                 <Box className="no-data">No products available</Box>
               )}
