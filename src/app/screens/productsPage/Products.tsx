@@ -15,6 +15,11 @@ import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { Dispatch } from "@reduxjs/toolkit";
+import { Product } from "../../../lib/types/product";
+import { createSelector } from "reselect";
+import { setProducts } from "./slice";
+import { retrieveProducts } from "./selector";
 
 const products = [
   { productName: "Cutlet", imagePath: "/img/cutlet.webp" },
@@ -27,6 +32,13 @@ const products = [
   { productName: "Kebab", imagePath: "/img/kebab-fresh.webp" },
 ];
 
+const actionDispatch = (dispatch: Dispatch) => ({
+  setProducts: (data: Product[]) => dispatch(setProducts(data)),
+});
+
+const productsRetriever = createSelector(retrieveProducts, (products) => ({
+  products,
+}));
 const Products = () => {
   return (
     <div className="products">
