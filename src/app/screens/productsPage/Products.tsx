@@ -30,12 +30,25 @@ const actionDispatch = (dispatch: Dispatch) => ({
   setProducts: (data: Product[]) => dispatch(setProducts(data)),
 });
 
-const productsRetriever = createSelector(retrieveProducts, (products) => ({
-  products,
-}));
+// const productsRetriever = createSelector(retrieveProducts, (products) => ({
+//   products,
+// }));
+//Agar useSelectordan bir nechta qiymatlarni bitta object qilib qaytarmoqchi bo‘lsang.
+
+//Masalan:
+
+// export const fullProductsPageRetriever = createSelector(
+//   [retrieveProducts, retrieveRestaurant, retrieveChosenProduct],
+//   (products, restaurant, chosenProduct) => ({
+//     products,
+//     restaurant,
+//     chosenProduct,
+//   })
+// );
+
 const Products = () => {
   const { setProducts } = actionDispatch(useDispatch());
-  const { products } = useSelector(productsRetriever);
+  const products = useSelector(retrieveProducts);
   const history = useHistory();
   const [searchText, setSearchText] = useState("");
   const [productSearch, setProductSearch] = useState<ProductInquiry>({

@@ -27,23 +27,32 @@ const actionDispatch = (dispatch: Dispatch) => ({
   setChosenProduct: (data: Product) => dispatch(setChosenProduct(data)),
 });
 
-const restaurantRetriever = createSelector(
-  retrieveRestaurant,
-  (restaurant) => ({
-    restaurant,
-  })
-);
-const chosenProductRetriever = createSelector(
-  retrieveChosenProduct,
-  (chosenProduct) => ({
-    chosenProduct,
-  })
-);
+// const restaurantRetriever = createSelector(
+//   retrieveRestaurant,
+//   (restaurant) => ({
+//     restaurant,
+//   })
+// );
+// const chosenProductRetriever = createSelector(
+//   retrieveChosenProduct,
+//   (chosenProduct) => ({
+//     chosenProduct,
+//   })
+// );
+
+//  const fullProductsPageRetriever = createSelector(
+//   [retrieveRestaurant, retrieveChosenProduct],
+//   (restaurant, chosenProduct) => ({
+//     restaurant,
+//     chosenProduct,
+//   })
+// );
 export default function ChosenProduct() {
+  // const { restaurant, chosenProduct } = useSelector(fullProductsPageRetriever);
   const { productId } = useParams<{ productId: string }>();
   const { setRestaurant, setChosenProduct } = actionDispatch(useDispatch());
-  const { chosenProduct } = useSelector(chosenProductRetriever);
-  const { restaurant } = useSelector(restaurantRetriever);
+  const chosenProduct = useSelector(retrieveChosenProduct);
+  const restaurant = useSelector(retrieveRestaurant);
   useEffect(() => {
     const product = new ProductService();
     product
