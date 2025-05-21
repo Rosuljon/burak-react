@@ -14,16 +14,7 @@ const HomeNavbar = (props: HomeNavbarProps) => {
   const authMember = null;
   const location = useLocation();
   const isHomePage = location.pathname === "/";
-  const [count, setCount] = useState(0);
-  const [value, setValue] = useState(true);
-  useEffect(() => {
-    console.log("componentDidMount", count);
-    setCount(count + 1);
 
-    return () => {
-      console.log("componentWillUnmount");
-    };
-  }, [value]);
   useEffect(() => {
     const handleScroll = () => {
       const offset = window.scrollY;
@@ -39,9 +30,6 @@ const HomeNavbar = (props: HomeNavbarProps) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHomePage]);
 
-  const buttonHandler = () => {
-    setValue(!value);
-  };
   return (
     <div
       className="home-navbar"
@@ -109,14 +97,10 @@ const HomeNavbar = (props: HomeNavbarProps) => {
               <Box className="head-second-txt">
                 The Choice, not just a choice
               </Box>
-              <Box className="head-third-txt">{count} hours service</Box>
+              <Box className="head-third-txt">24 hours service</Box>
               <Box className="signup">
                 {!authMember && (
-                  <Button
-                    variant="contained"
-                    className="signup-button"
-                    onClick={buttonHandler}
-                  >
+                  <Button variant="contained" className="signup-button">
                     Sign Up
                   </Button>
                 )}
