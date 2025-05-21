@@ -13,36 +13,21 @@ import Footer from "./components/footer";
 import "../css/app.css";
 import "../css/navbar.css";
 import "../css/footer.css";
-import { useState } from "react";
-import { CartItem } from "../lib/types/search";
 import ScrollToTop from "./components/ScrollToTop";
+import useBasket from "./hooks/useBasket";
 
 function App() {
-  const cartJson: string | null = localStorage.getItem("cartData");
-  const currentCart = cartJson ? JSON.parse(cartJson) : [];
-  const [cartItems, setCartItems] = useState<CartItem[]>(currentCart);
-
-  const onAdd = (input: CartItem) => {
-    let cartUpdate;
-    const exist: any = cartItems.find(
-      (item: CartItem) => item._id === input._id
-    );
-    if (exist) {
-      cartUpdate = cartItems.map((item: CartItem) =>
-        item._id === input._id
-          ? { ...exist, quantity: exist.quantity + 1 }
-          : item
-      );
-    } else {
-      cartUpdate = [...cartItems, { ...input }];
-    }
-    setCartItems(cartUpdate);
-    localStorage.setItem("cartData", JSON.stringify(cartUpdate));
-  };
+  const { cartItems, onAdd, onRemove, onDelete, onDeleteAll } = useBasket();
   return (
     <>
       <ScrollToTop />
-      <HomeNavbar cartItems={cartItems} />
+      <HomeNavbar
+        cartItems={cartItems}
+        onAdd={onAdd}
+        onRemove={onRemove}
+        onDelete={onDelete}
+        onDeleteAll={onDeleteAll}
+      />
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/products">

@@ -6,11 +6,14 @@ import { CartItem } from "../../../lib/types/search";
 
 interface HomeNavbarProps {
   cartItems: CartItem[];
+  onAdd: (item: CartItem) => void;
+  onRemove: (item: CartItem) => void;
+  onDelete: (item: CartItem) => void;
+  onDeleteAll: () => void;
 }
 const HomeNavbar = (props: HomeNavbarProps) => {
+  const { cartItems, onAdd, onDelete, onDeleteAll, onRemove } = props;
   const [scrolled, setScrolled] = useState(false);
-
-  const { cartItems } = props;
   const authMember = null;
   const location = useLocation();
   const isHomePage = location.pathname === "/";
@@ -72,7 +75,13 @@ const HomeNavbar = (props: HomeNavbarProps) => {
                 Help
               </NavLink>
             </Box>
-            <Basket cartItems={cartItems} />
+            <Basket
+              cartItems={cartItems}
+              onAdd={onAdd}
+              onRemove={onRemove}
+              onDelete={onDelete}
+              onDeleteAll={onDeleteAll}
+            />
             {!authMember ? (
               <Box>
                 <Button variant="contained" className="login-btn">

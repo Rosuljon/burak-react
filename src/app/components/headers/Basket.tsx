@@ -4,6 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import Menu from "@mui/material/Menu";
 import CancelIcon from "@mui/icons-material/Cancel";
+import DeleteForever from "@mui/icons-material/DeleteForever";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useHistory } from "react-router-dom";
 import { CartItem } from "../../../lib/types/search";
@@ -11,13 +12,22 @@ import { serverApi } from "../../../lib/config";
 
 interface BasketProps {
   cartItems: CartItem[];
+  onAdd: (item: CartItem) => void;
+  onRemove: (item: CartItem) => void;
+  onDelete: (item: CartItem) => void;
+  onDeleteAll: () => void;
 }
 
 export default function Basket(props: BasketProps) {
-  const { cartItems } = props;
+  const { cartItems, onAdd, onDelete, onDeleteAll, onRemove } = props;
   const authMember = null;
   const history = useHistory();
-
+  const itemsPrice = cartItems.reduce(
+    (a: number, c: CartItem) => a + c.quantity * c.price,
+    0
+  );
+  const delivery = itemsPrice > 100 ? 0 : 5;
+  const totalPrice = (itemsPrice + delivery).toFixed(2);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -83,7 +93,10 @@ export default function Basket(props: BasketProps) {
             {cartItems.length === 0 ? (
               <div>Cart is empty!</div>
             ) : (
-              <div>Cart Products:</div>
+              <Stack flexDirection={"row"}>
+                <div>Cart Products:</div>
+                {/* <DeleteForever sx={{ ml: "5px" }} onClick={onDeleteAll} /> */}
+              </Stack>
             )}
           </Box>
 
@@ -94,7 +107,12 @@ export default function Basket(props: BasketProps) {
                 return (
                   <Box className={"basket-info-box"}>
                     <div className={"cancel-btn"}>
-                      <CancelIcon color={"primary"} />
+                      <CancelIcon
+                        color={"primary"}
+                        onClick={() => {
+                          onDelete(item);
+                        }}
+                      />
                     </div>
                     <img src={imagePath} className={"product-img"} />
                     <span className={"product-name"}>{item.name}</span>
@@ -103,8 +121,22 @@ export default function Basket(props: BasketProps) {
                     </p>
                     <Box sx={{ minWidth: 120 }}>
                       <div className="col-2">
-                        <button className="remove">-</button>{" "}
-                        <button className="add">+</button>
+                        <button
+                          onClick={() => {
+                            onRemove(item);
+                          }}
+                          className="remove"
+                        >
+                          -
+                        </button>{" "}
+                        <button
+                          onClick={() => {
+                            onAdd(item);
+                          }}
+                          className="add"
+                        >
+                          +
+                        </button>
                       </div>
                     </Box>
                   </Box>
@@ -112,12 +144,48 @@ export default function Basket(props: BasketProps) {
               })}
             </Box>
           </Box>
-          <Box className={"basket-order"}>
-            <span className={"price"}>Total: $100 (98 +2)</span>
-            <Button startIcon={<ShoppingCartIcon />} variant={"contained"}>
-              Order
-            </Button>
-          </Box>
+          {cartItems.length !== 0 ? (
+            <div>
+              <Box className={"basket-order"}>
+                <div>
+                  <span className={"price"}>Total: ${totalPrice}</span>
+                  <small style={{ color: "#777" }}>
+                    Products price: ${itemsPrice}
+                  </small>
+                  <br />
+                  <small style={{ color: "#777" }}>
+                    Delivery fee: {delivery === 0 ? "Free" : `$${delivery}`}
+                  </small>
+                </div>
+
+                <Button
+                  onClick={onDeleteAll}
+                  startIcon={<DeleteForever />}
+                  variant={"contained"}
+                >
+                  Clear
+                </Button>
+                <Button startIcon={<ShoppingCartIcon />} variant={"contained"}>
+                  Order
+                </Button>
+              </Box>
+
+              <Box mt={1} width="100%">
+                <small
+                  style={{
+                    color: "#555",
+                    fontStyle: "italic",
+                    fontSize: "13px",
+                  }}
+                >
+                  * Orders over $100 qualify for <strong>free delivery</strong>.
+                  A $5 delivery fee applies to orders below $100.
+                </small>
+              </Box>
+            </div>
+          ) : (
+            ""
+          )}
         </Stack>
       </Menu>
     </Box>
