@@ -13,6 +13,20 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  position: fixed;
+  top: 0;
+  /* left: 0;
+  right: 0; */
+  z-index: 1000;
+  padding: 20px;
+  width: 1250px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+.scrolled {
+  background-color: #121212;
+
+  border-radius: 8px;
 }
 .home-navbar .navbar-container .menu .logo {
   width: 125px;

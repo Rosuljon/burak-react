@@ -2,8 +2,15 @@ import { useState, useEffect } from "react";
 import { Box, Button, Container, Stack } from "@mui/material";
 import { NavLink, useLocation } from "react-router-dom";
 import Basket from "./Basket";
+import { CartItem } from "../../../lib/types/search";
 
-const HomeNavbar = () => {
+interface HomeNavbarProps {
+  cartItems: CartItem[];
+}
+const HomeNavbar = (props: HomeNavbarProps) => {
+  const [scrolled, setScrolled] = useState(false);
+
+  const { cartItems } = props;
   const authMember = null;
   const location = useLocation();
   const isHomePage = location.pathname === "/";
@@ -17,6 +24,20 @@ const HomeNavbar = () => {
       console.log("componentWillUnmount");
     };
   }, [value]);
+  useEffect(() => {
+    const handleScroll = () => {
+      const offset = window.scrollY;
+      if (isHomePage) {
+        setScrolled(offset > 930);
+      } else {
+        setScrolled(offset > 350); // 100px dan keyin fon chiqaramiz
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isHomePage]);
 
   const buttonHandler = () => {
     setValue(!value);
@@ -27,7 +48,7 @@ const HomeNavbar = () => {
       style={{ height: isHomePage ? "773px" : "400px" }}
     >
       <Container className="navbar-container">
-        <Stack className="menu">
+        <Stack className={`menu ${scrolled ? "scrolled" : ""}`}>
           <Box>
             <NavLink to="/">
               <img src="/icons/burak.svg" alt="Logo" className="logo" />
@@ -63,7 +84,7 @@ const HomeNavbar = () => {
                 Help
               </NavLink>
             </Box>
-            <Basket />
+            <Basket cartItems={cartItems} />
             {!authMember ? (
               <Box>
                 <Button variant="contained" className="login-btn">

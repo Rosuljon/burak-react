@@ -25,6 +25,7 @@ import { ProductCollection } from "../../../lib/enums/product.enum";
 import { useDispatch, useSelector } from "react-redux";
 import { serverApi } from "../../../lib/config";
 import { useHistory } from "react-router-dom";
+import { CartItem } from "../../../lib/types/search";
 
 const actionDispatch = (dispatch: Dispatch) => ({
   setProducts: (data: Product[]) => dispatch(setProducts(data)),
@@ -46,7 +47,11 @@ const actionDispatch = (dispatch: Dispatch) => ({
 //   })
 // );
 
-const Products = () => {
+interface ProductsProps {
+  onAdd: (item: CartItem) => void;
+}
+const Products = (props: ProductsProps) => {
+  const { onAdd } = props;
   const { setProducts } = actionDispatch(useDispatch());
   const products = useSelector(retrieveProducts);
   const history = useHistory();
@@ -272,7 +277,19 @@ const Products = () => {
                         sx={{ backgroundImage: `url(${imagePath})` }}
                       >
                         <div className="product-sale">{sizeVolume}</div>
-                        <Button className="shop-btn">
+                        <Button
+                          className="shop-btn"
+                          onClick={(e) => {
+                            onAdd({
+                              _id: product._id,
+                              quantity: 1,
+                              name: product.productName,
+                              price: product.productPrice,
+                              image: product.productImages[0],
+                            });
+                            e.stopPropagation();
+                          }}
+                        >
                           <img
                             src="/icons/shopping-cart.svg"
                             style={{ display: "flex" }}
