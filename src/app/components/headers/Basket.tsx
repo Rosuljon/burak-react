@@ -105,7 +105,7 @@ export default function Basket(props: BasketProps) {
               {cartItems.map((item: CartItem) => {
                 const imagePath = `${serverApi}/${item.image}`;
                 return (
-                  <Box className={"basket-info-box"}>
+                  <Box key={item._id} className={"basket-info-box"}>
                     <div className={"cancel-btn"}>
                       <CancelIcon
                         color={"primary"}
