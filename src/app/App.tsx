@@ -18,12 +18,12 @@ import "../css/footer.css";
 
 function App() {
   const { cartItems, onAdd, onRemove, onDelete, onDeleteAll } = useBasket();
-  const [signupOpen, setSignOpen] = useState(true);
+  const [signupOpen, setSignupOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
 
   //Handlers
 
-  const handleSignupClose = () => setSignOpen(false);
+  const handleSignupClose = () => setSignupOpen(false);
   const handleLoginClose = () => setLoginOpen(false);
   return (
     <>
@@ -34,6 +34,8 @@ function App() {
         onRemove={onRemove}
         onDelete={onDelete}
         onDeleteAll={onDeleteAll}
+        setSignupOpen={setSignupOpen}
+        setLoginOpen={setLoginOpen}
       />
       <Switch>
         <Route exact path="/" component={HomePage} />

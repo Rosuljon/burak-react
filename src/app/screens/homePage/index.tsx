@@ -48,8 +48,6 @@ export function HomePage() {
         productCollection: ProductCollection.DISH,
       })
       .then((data) => {
-        console.log("Dadawdwaaw", data);
-
         setNewDishes(data);
       })
       .catch((err) => console.log(err));

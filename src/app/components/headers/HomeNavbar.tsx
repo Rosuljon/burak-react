@@ -10,9 +10,19 @@ interface HomeNavbarProps {
   onRemove: (item: CartItem) => void;
   onDelete: (item: CartItem) => void;
   onDeleteAll: () => void;
+  setSignupOpen: (isOpen: boolean) => void;
+  setLoginOpen: (isOpen: boolean) => void;
 }
 const HomeNavbar = (props: HomeNavbarProps) => {
-  const { cartItems, onAdd, onDelete, onDeleteAll, onRemove } = props;
+  const {
+    cartItems,
+    onAdd,
+    onDelete,
+    onDeleteAll,
+    onRemove,
+    setLoginOpen,
+    setSignupOpen,
+  } = props;
   const [scrolled, setScrolled] = useState(false);
   const authMember = null;
   const location = useLocation();
@@ -84,7 +94,13 @@ const HomeNavbar = (props: HomeNavbarProps) => {
             />
             {!authMember ? (
               <Box>
-                <Button variant="contained" className="login-btn">
+                <Button
+                  variant="contained"
+                  className="login-btn"
+                  onClick={() => {
+                    setLoginOpen(true);
+                  }}
+                >
                   Login
                 </Button>
               </Box>
@@ -109,7 +125,13 @@ const HomeNavbar = (props: HomeNavbarProps) => {
               <Box className="head-third-txt">24 hours service</Box>
               <Box className="signup">
                 {!authMember && (
-                  <Button variant="contained" className="signup-button">
+                  <Button
+                    onClick={() => {
+                      setSignupOpen(true);
+                    }}
+                    variant="contained"
+                    className="signup-button"
+                  >
                     Sign Up
                   </Button>
                 )}
