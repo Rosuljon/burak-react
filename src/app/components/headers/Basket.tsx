@@ -26,7 +26,7 @@ export default function Basket(props: BasketProps) {
     (a: number, c: CartItem) => a + c.quantity * c.price,
     0
   );
-  const delivery = itemsPrice > 100 ? 0 : 5;
+  const delivery = itemsPrice >= 100 ? 0 : 5;
   const totalPrice = (itemsPrice + delivery).toFixed(2);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

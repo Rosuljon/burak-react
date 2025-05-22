@@ -1,5 +1,4 @@
-// import React from "react";
-// import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import { useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import {
   HomePage,
@@ -10,14 +9,22 @@ import {
 } from "./screens";
 import HomeNavbar from "./components/headers/HomeNavbar";
 import Footer from "./components/footer";
+import ScrollToTop from "./components/ScrollToTop";
+import useBasket from "./hooks/useBasket";
+import AuthenticationModal from "./components/auth";
 import "../css/app.css";
 import "../css/navbar.css";
 import "../css/footer.css";
-import ScrollToTop from "./components/ScrollToTop";
-import useBasket from "./hooks/useBasket";
 
 function App() {
   const { cartItems, onAdd, onRemove, onDelete, onDeleteAll } = useBasket();
+  const [signupOpen, setSignOpen] = useState(true);
+  const [loginOpen, setLoginOpen] = useState(false);
+
+  //Handlers
+
+  const handleSignupClose = () => setSignOpen(false);
+  const handleLoginClose = () => setLoginOpen(false);
   return (
     <>
       <ScrollToTop />
@@ -38,6 +45,12 @@ function App() {
         <Route path="/help" component={HelpPage} />
       </Switch>
       <Footer />
+      <AuthenticationModal
+        signupOpen={signupOpen}
+        loginOpen={loginOpen}
+        handleLoginClose={handleLoginClose}
+        handleSignupClose={handleSignupClose}
+      />
     </>
   );
 }
