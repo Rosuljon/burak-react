@@ -12,14 +12,13 @@ import Footer from "./components/footer";
 import ScrollToTop from "./components/ScrollToTop";
 import useBasket from "./hooks/useBasket";
 import AuthenticationModal from "./components/auth";
-import "../css/app.css";
-import "../css/navbar.css";
-import "../css/footer.css";
-import { T } from "../lib/types/common";
 import { sweetErrorHandling, sweetTopSuccessAlert } from "../lib/sweetAlert";
 import { Messages } from "../lib/config";
 import MemberService from "./services/MemberService";
 import { useGlobals } from "./hooks/useGlobals";
+import "../css/app.css";
+import "../css/navbar.css";
+import "../css/footer.css";
 
 function App() {
   const { setAuthMember } = useGlobals();

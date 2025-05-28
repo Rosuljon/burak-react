@@ -7,13 +7,14 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PausedOrders from "./PausedOrders";
 import ProcessOrders from "./ProcessOrders";
 import FinishedOrders from "./FinishedOrders";
-import "../../../css/order.css";
 import { Dispatch } from "@reduxjs/toolkit";
 import { Order, OrderInquiry } from "../../../lib/types/order";
 import { setPausedOrders, setProcessOrders, setFinishedOrders } from "./slice";
 import { useDispatch } from "react-redux";
 import { OrderStatus } from "../../../lib/enums/order.enum";
 import OrderService from "../../services/OrderService";
+import { useGlobals } from "../../hooks/useGlobals";
+import "../../../css/order.css";
 
 const actionDispatch = (dispatch: Dispatch) => ({
   setPausedOrders: (data: Order[]) => dispatch(setPausedOrders(data)),
@@ -24,6 +25,7 @@ const actionDispatch = (dispatch: Dispatch) => ({
 export function OrdersPage() {
   const { setFinishedOrders, setPausedOrders, setProcessOrders } =
     actionDispatch(useDispatch());
+  const { orderBuilder } = useGlobals();
   const [value, setValue] = useState("1");
   const [orderInquiry, setOrderInquiry] = useState<OrderInquiry>({
     page: 1,
@@ -43,10 +45,10 @@ export function OrdersPage() {
       .then((data) => setProcessOrders(data))
       .catch((error) => console.log(error));
     order
-      .getMyOrders({ ...orderInquiry, orderStatus: OrderStatus.DELETE })
+      .getMyOrders({ ...orderInquiry, orderStatus: OrderStatus.FINISH })
       .then((data) => setFinishedOrders(data))
       .catch((error) => console.log(error));
-  }, [orderInquiry]);
+  }, [orderInquiry, orderBuilder]);
 
   //Handlers
   const handleChange = (e: SyntheticEvent, newValue: string) => {
@@ -72,8 +74,8 @@ export function OrdersPage() {
               </Box>
             </Box>
             <Stack className="order-main-content">
-              <PausedOrders />
-              <ProcessOrders />
+              <PausedOrders setValue={setValue} />
+              <ProcessOrders setValue={setValue} />
               <FinishedOrders />
             </Stack>
           </TabContext>

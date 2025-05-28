@@ -5,12 +5,44 @@ import TabPanel from "@mui/lab/TabPanel";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { retrieveProcessOrder } from "./selector";
-import { Order, OrderItem } from "../../../lib/types/order";
+import { Order, OrderItem, OrderUpdateInput } from "../../../lib/types/order";
 import { Product } from "../../../lib/types/product";
-import { serverApi } from "../../../lib/config";
-
-const ProcessOrders = () => {
+import { Messages, serverApi } from "../../../lib/config";
+import { useGlobals } from "../../hooks/useGlobals";
+import { T } from "../../../lib/types/common";
+import { OrderStatus } from "../../../lib/enums/order.enum";
+import OrderService from "../../services/OrderService";
+import { sweetErrorHandling } from "../../../lib/sweetAlert";
+interface ProcessOrdersProps {
+  setValue: (input: string) => void;
+}
+const ProcessOrders = (props: ProcessOrdersProps) => {
+  const { setValue } = props;
+  const { authMember, setOrderBuilder } = useGlobals();
   const processOrders = useSelector(retrieveProcessOrder);
+
+  //Handlers
+  const finishedOrderHandler = async (e: T) => {
+    try {
+      if (!authMember) throw new Error(Messages.error2);
+      //Payment process
+      const orderId = e.target.value;
+      const input: OrderUpdateInput = {
+        orderId: orderId,
+        orderStatus: OrderStatus.FINISH,
+      };
+      const confirmation = window.confirm("Have you recieved your order?");
+      if (confirmation) {
+        const order = new OrderService();
+        await order.updateOrder(input);
+        setValue("3");
+        setOrderBuilder(new Date());
+      }
+    } catch (error) {
+      console.log(error);
+      sweetErrorHandling(error).then();
+    }
+  };
   return (
     <TabPanel value="2">
       <Stack>
@@ -67,7 +99,12 @@ const ProcessOrders = () => {
                 <p className="data-compl">
                   {moment().format("YY-MM-DD HH:mm")}
                 </p>
-                <Button variant="contained" className={"verify-button"}>
+                <Button
+                  onClick={finishedOrderHandler}
+                  value={order._id}
+                  variant="contained"
+                  className={"verify-button"}
+                >
                   Verify to Fullfil
                 </Button>
               </Box>
